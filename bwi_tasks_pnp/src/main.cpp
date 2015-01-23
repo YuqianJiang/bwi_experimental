@@ -1,6 +1,9 @@
-#include "bwi_kr_execution/ExecutePlanAction.h"
+#include "bwi_kr_execution/ExecutePlanAction.h"'
+#include "bwi_kr_execution/CurrentStateQuery.h"
 #include <actionlib/client/simple_action_client.h>
 #include <ros/ros.h>
+
+#include <sound_play/sound_play.h>
 #include <ros/package.h>
 
 #include <pnp/pnp_executer.h>
@@ -21,11 +24,13 @@ int main(int argc, char**argv) {
     string planName;
     privateNode.param<string>("planName",planName,"single_task");
 
+    ros::ServiceClient currentClient = n.serviceClient<bwi_kr_execution::CurrentStateQuery> ( "current_state_query" );
     Client client("/action_executor/execute_plan", true);
+    ros::Publisher soundPublisher = n.advertise<sound_play::SoundRequest>("robotsound", 1000);
     
     client.waitForServer();
 
-    TaskInstantiator *inst = new TaskInstantiator(ros::package::getPath("bwi_tasks_pnp")+"/plans/", client);
+    TaskInstantiator *inst = new TaskInstantiator(ros::package::getPath("bwi_tasks_pnp")+"/plans/", client, currentClient, soundPublisher);
     
     PnpExecuter<PnpPlan> executor(inst);
     executor.setMainPlan(planName);

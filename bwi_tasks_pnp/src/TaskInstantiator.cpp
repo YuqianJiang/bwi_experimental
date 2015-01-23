@@ -14,14 +14,16 @@
 #include <actasp/AspFluent.h>
 
 #include "Task.h"
+#include "Say.h"
 #include <ros/package.h>
+#include <ros/ros.h>
 
 #include <dirent.h>
 
 using namespace std;
 using namespace PetriNetPlans;
 
-TaskInstantiator::TaskInstantiator(const std::string& planDir, Client& client) : planDir(planDir), condition(client), client(client), planLoader() {
+TaskInstantiator::TaskInstantiator(const std::string& planDir, Client& client, ros::ServiceClient& currentClient, ros::Publisher& soundPublisher) : planDir(planDir), condition(client, currentClient), client(client), soundPublisher(soundPublisher), planLoader() {
 }
 
 PetriNetPlans::PnpExecutable* TaskInstantiator::createExecutable(const std::string& name) throw(std::runtime_error) {
@@ -94,6 +96,47 @@ bwi_kr_execution::AspRule parseAspRule(const std::string &s) throw(std::runtime_
 PetriNetPlans::PnpExecutable* TaskInstantiator::createAction(const std::string& name) {
 
     bwi_kr_execution::ExecutePlanGoal goal;
+
+    if (name.compare(0, 12, "ApproachDoor") == 0) {
+        bwi_kr_execution::AspRule rule;
+        bwi_kr_execution::AspFluent fluentMsg;
+        fluentMsg.name = "approach";
+        fluentMsg.variables.push_back(name.substr(name.find_first_not_of("- ", 12), name.length()));
+        fluentMsg.timeStep = 0;
+        rule.body.push_back(fluentMsg);
+        goal.aspGoal.push_back(rule);
+
+        return new Task(goal, client);
+    }
+
+    if (name.compare(0, 9, "GoThrough") == 0) {
+        bwi_kr_execution::AspRule rule;
+        bwi_kr_execution::AspFluent fluentMsg;
+        fluentMsg.name = "gothrough";
+        fluentMsg.variables.push_back(name.substr(name.find_first_not_of("- ", 9), name.length()));
+        fluentMsg.timeStep = 0;
+        rule.body.push_back(fluentMsg);
+        goal.aspGoal.push_back(rule);
+
+        return new Task(goal, client);
+    }
+
+    if (name.compare(0, 8, "OpenDoor") == 0) {
+        bwi_kr_execution::AspRule rule;
+        bwi_kr_execution::AspFluent fluentMsg;
+        fluentMsg.name = "opendoor";
+        fluentMsg.variables.push_back(name.substr(name.find_first_not_of("- ", 8), name.length()));
+        fluentMsg.timeStep = 0;
+        rule.body.push_back(fluentMsg);
+        goal.aspGoal.push_back(rule);
+
+        return new Task(goal, client);
+    }
+
+    if (name.compare(0, 3, "Say") == 0) {
+        return new Say(name.substr(name.find_first_not_of("- ", 3), name.length()), soundPublisher);
+    }
+
     stringstream goal_s;
     goal_s << name << "\n";
     string line;

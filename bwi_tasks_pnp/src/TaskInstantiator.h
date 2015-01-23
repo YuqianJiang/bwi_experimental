@@ -13,7 +13,7 @@
 
 struct TaskInstantiator : public PetriNetPlans::ExecutableInstantiator {
 	
-    explicit TaskInstantiator(const std::string& planDir, Client& client);
+    explicit TaskInstantiator(const std::string& planDir, Client& client, ros::ServiceClient& currentClient, ros::Publisher& soundPublisher);
 	
     PetriNetPlans::PnpExecutable* createExecutable(const std::string& name) throw(std::runtime_error);
 	
@@ -21,6 +21,7 @@ private:
     std::string planDir;
     TaskCondition condition;
     Client& client;
+    ros::Publisher& soundPublisher;
     PetriNetPlans::XMLPnpPlanInstantiator planLoader;
 
     PetriNetPlans::PnpExecutable* createAction(const std::string& name);

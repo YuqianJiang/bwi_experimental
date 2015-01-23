@@ -1,4 +1,5 @@
 #include "TaskCondition.h"
+#include "bwi_kr_execution/CurrentStateQuery.h"
 
 #include <iostream>
 #include <fstream>
@@ -10,9 +11,28 @@ using namespace std;
 
 double TaskCondition::rew;
 
-TaskCondition::TaskCondition(Client& client) : client(client) {}
+TaskCondition::TaskCondition(Client& client, ros::ServiceClient& currentClient) : client(client), currentClient(currentClient) {}
 
 bool TaskCondition::evaluateAtomicExternalCondition (const std::string& atom ) {
+    if (atom.compare(0, 10, "IsDoorOpen") == 0) {
+        
+        currentClient.waitForExistence();
+
+        bwi_kr_execution::AspFluent openFluent;
+        openFluent.name = "open";
+        openFluent.timeStep = 0;
+        openFluent.variables.push_back(atom.substr(atom.find_first_not_of("- ", 10), atom.length()));
+
+        bwi_kr_execution::AspRule rule;
+        rule.head.push_back(openFluent);
+
+        bwi_kr_execution::CurrentStateQuery csq;
+        csq.request.query.push_back(rule);
+
+        currentClient.call(csq);
+
+        return csq.response.answer.satisfied;
+    }
     string taskTypeName = ros::package::getPath("bwi_tasks_pnp")+"/task_types/"+ atom + ".txt";
     ofstream taskTypeFile(taskTypeName.c_str());
     
