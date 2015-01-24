@@ -147,6 +147,7 @@ target_link_libraries(bwi_tasks_pnp_node
   ${catkin_LIBRARIES}
   pnp
   actasp
+  kractions
 )
 
 #############

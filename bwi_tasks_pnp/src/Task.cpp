@@ -32,6 +32,7 @@ bool Task::finished() {
         TaskCondition::setReward(reward);
         return true;
     }
-    else
+    else {
         return false;
+    }
 }

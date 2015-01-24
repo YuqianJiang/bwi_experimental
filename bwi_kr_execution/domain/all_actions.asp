@@ -18,5 +18,7 @@
 %#volatile n.
 %noop(n).
 
+noop(0) :- noop(0).
+
 #hide noop/1.
 

@@ -4,4 +4,5 @@ SET(task_pnp_SRC  ${task_pnp_SRC}
 	${CMAKE_CURRENT_SOURCE_DIR}/TaskCondition.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/TaskInstantiator.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Say.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Print.cpp
 PARENT_SCOPE)

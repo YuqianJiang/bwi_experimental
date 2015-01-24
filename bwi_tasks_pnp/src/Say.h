@@ -8,14 +8,15 @@ using namespace std;
 
 class Say : public PetriNetPlans::PnpAction {
 public:
-    Say(const string& sentence, ros::Publisher& soundPublisher);	
+    Say(const string& sentence);	
     virtual void executeStep();
     virtual bool finished();
 
 private:
     string sentence;
-    ros::Publisher& soundPublisher;
+    static ros::Publisher soundPublisher;
     bool sent;
+    bool pub_set;
     double initial_time;
 };
 
