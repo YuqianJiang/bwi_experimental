@@ -26,7 +26,7 @@ bool TaskCondition::evaluateAtomicExternalCondition (const std::string& atom ) {
         bwi_kr_execution::AspFluent openFluent;
         openFluent.name = "open";
         openFluent.timeStep = 0;
-        openFluent.variables.push_back(atom.substr(atom.find_first_not_of("- ", 10), atom.length()));
+        openFluent.variables.push_back(atom.substr(atom.find_first_not_of("_ ", 10), atom.length()));
 
         bwi_kr_execution::AspRule rule;
         rule.head.push_back(openFluent);
