@@ -97,6 +97,7 @@ catkin_package(
 # include_directories(include)
 include_directories(
   ${catkin_INCLUDE_DIRS}
+  ${bwi_kr_execution_INCLUDE_DIR}
   pnp/include
 )
 

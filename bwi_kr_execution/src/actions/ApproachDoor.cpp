@@ -1,6 +1,6 @@
-#include "ApproachDoor.h"
+#include "kractions/ApproachDoor.h"
 
-#include "ActionFactory.h"
+#include "kractions/ActionFactory.h"
 #include "../msgs_utils.h"
 
 #include "actasp/AnswerSet.h"

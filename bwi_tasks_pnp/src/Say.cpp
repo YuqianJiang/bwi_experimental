@@ -2,8 +2,9 @@
 #include <sound_play/sound_play.h>
 #include "TaskCondition.h"
 
-Say::Say(const string& sentence) : sentence(sentence), sent(false), pub_set(false) {}
+Say::Say(const string& sentence) : sentence(sentence), sent(false) {}
 ros::Publisher Say::soundPublisher;
+bool Say::pub_set(false);
 
 void Say::executeStep() {
     if (!sent) {

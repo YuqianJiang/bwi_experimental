@@ -10,13 +10,14 @@ typedef actionlib::SimpleActionClient<bwi_kr_execution::ExecutePlanAction> Clien
 
 class TaskCondition : public learnpnp::RewardCollector {
 public:
-    TaskCondition(Client& client, ros::ServiceClient& currentClient);
+    TaskCondition(Client& client);
     bool evaluateAtomicExternalCondition(const std::string& atom);
     double reward();
     static void setReward(double reward);
 private:
     Client& client;
-    ros::ServiceClient& currentClient;
+    bool client_set;
+    ros::ServiceClient currentClient;
     static double rew;
 };
 

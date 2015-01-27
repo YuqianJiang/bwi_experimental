@@ -1,18 +1,18 @@
 
-#ifndef bwi_krexec_OpenDoor_h__guard
-#define bwi_krexec_OpenDoor_h__guard
+#ifndef bwi_krexec_OpenSimulatedDoor_h__guard
+#define bwi_krexec_OpenSimulatedDoor_h__guard
 
 #include "actasp/Action.h"
-
-#include <ros/ros.h>
 
 #include <string>
 
 namespace bwi_krexec {
 
-class OpenDoor : public actasp::Action{
+class OpenSimulatedDoor : public actasp::Action{
 public:
-  OpenDoor();
+  OpenSimulatedDoor();
+
+  explicit OpenSimulatedDoor(const std::string& doorName);
 
   int paramNumber() const {return 1;}
   
@@ -22,11 +22,9 @@ public:
   
   bool hasFinished() const {return done;}
   
-  virtual bool hasFailed() const {return failed;}
-  
   actasp::Action *cloneAndInit(const actasp::AspFluent & fluent) const;
   
-  virtual actasp::Action *clone() const {return new OpenDoor(*this);}
+  virtual actasp::Action *clone() const {return new OpenSimulatedDoor(*this);}
   
 private:
   
@@ -34,10 +32,7 @@ private:
  
  std::string door;
  bool done;
- bool asked;
- bool open;
- bool failed;
- ros::Time startTime;
+ bool requestSent;
  
 };
 

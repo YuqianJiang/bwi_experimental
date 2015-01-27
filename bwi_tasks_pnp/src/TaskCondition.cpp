@@ -11,11 +11,16 @@ using namespace std;
 
 double TaskCondition::rew;
 
-TaskCondition::TaskCondition(Client& client, ros::ServiceClient& currentClient) : client(client), currentClient(currentClient) {}
+TaskCondition::TaskCondition(Client& client) : client(client), client_set(false) {}
 
 bool TaskCondition::evaluateAtomicExternalCondition (const std::string& atom ) {
     if (atom.compare(0, 10, "IsDoorOpen") == 0) {
         
+        if (!client_set) {
+            ros::NodeHandle n;
+            currentClient = n.serviceClient<bwi_kr_execution::CurrentStateQuery> ( "current_state_query" );
+            client_set = true;
+        }
         currentClient.waitForExistence();
 
         bwi_kr_execution::AspFluent openFluent;

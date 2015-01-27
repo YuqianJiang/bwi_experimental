@@ -5,4 +5,8 @@ SET(task_pnp_SRC  ${task_pnp_SRC}
 	${CMAKE_CURRENT_SOURCE_DIR}/TaskInstantiator.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Say.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/Print.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/GoThrough.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/ApproachDoor.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/OpenSimulatedDoor.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/OpenDoor.cpp
 PARENT_SCOPE)

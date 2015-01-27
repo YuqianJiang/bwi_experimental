@@ -1,6 +1,5 @@
 #include "bwi_kr_execution/ExecutePlanAction.h"
 #include "bwi_kr_execution/CurrentStateQuery.h"
-#include "segbot_gui/QuestionDialog.h"
 #include <actionlib/client/simple_action_client.h>
 #include <ros/ros.h>
 
@@ -23,16 +22,14 @@ int main(int argc, char**argv) {
     ros::NodeHandle privateNode("~");
     string planName;
     privateNode.param<string>("planName",planName,"single_task");
+    bool simulation;
+    privateNode.param<bool>("simulation",simulation,"true");
 
-    ros::ServiceClient currentClient = n.serviceClient<bwi_kr_execution::CurrentStateQuery> ( "current_state_query" );
     Client client("/action_executor/execute_plan", true);
-    ros::ServiceClient printClient = n.serviceClient<segbot_gui::QuestionDialog> ( "question_dialog" );
     
-    currentClient.waitForExistence();
     client.waitForServer();
-    printClient.waitForExistence();
 
-    TaskInstantiator *inst = new TaskInstantiator(ros::package::getPath("bwi_tasks_pnp")+"/plans/", client, currentClient, printClient);
+    TaskInstantiator *inst = new TaskInstantiator(ros::package::getPath("bwi_tasks_pnp")+"/plans/", simulation, client);
     
     PnpExecuter<PnpPlan> executor(inst);
     executor.setMainPlan(planName);

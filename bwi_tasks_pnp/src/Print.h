@@ -11,13 +11,12 @@ using namespace std;
 
 class Print : public PetriNetPlans::PnpAction {
 public:
-    Print(const string& sentence, ros::ServiceClient& printClient);	
+    Print(const string& sentence);	
     virtual void executeStep();
     virtual bool finished();
 
 private:
     string sentence;
-    ros::ServiceClient& printClient;
     bool done;
     double initial_time;
     segbot_gui::QuestionDialog req;

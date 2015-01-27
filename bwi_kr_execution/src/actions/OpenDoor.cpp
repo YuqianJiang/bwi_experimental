@@ -1,10 +1,10 @@
-#include "OpenDoor.h"
+#include "kractions/OpenDoor.h"
 
 
-#include "CallGUI.h"
-#include "LogicalNavigation.h"
+#include "kractions/CallGUI.h"
+#include "kractions/LogicalNavigation.h"
 
-#include "ActionFactory.h"
+#include "kractions/ActionFactory.h"
 
 #include "actasp/AspFluent.h"
 
@@ -20,6 +20,14 @@ namespace bwi_krexec {
 
 OpenDoor::OpenDoor() : 
             door(),
+            done(false),
+            asked(false),
+            open(false),
+            failed(false),
+            startTime(){}
+
+OpenDoor::OpenDoor(const std::string& doorName) : 
+            door(doorName),
             done(false),
             asked(false),
             open(false),

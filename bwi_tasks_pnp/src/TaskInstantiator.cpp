@@ -16,6 +16,10 @@
 #include "Task.h"
 #include "Say.h"
 #include "Print.h"
+#include "GoThrough.h"
+#include "ApproachDoor.h"
+#include "OpenSimulatedDoor.h"
+#include "OpenDoor.h"
 #include <ros/package.h>
 #include <ros/ros.h>
 
@@ -24,10 +28,8 @@
 using namespace std;
 using namespace PetriNetPlans;
 
-TaskInstantiator::TaskInstantiator(const std::string& planDir, Client& client, 
-    ros::ServiceClient& currentClient, 
-    ros::ServiceClient& printClient) : planDir(planDir), condition(client, currentClient), 
-                                        client(client), printClient(printClient), planLoader() {
+TaskInstantiator::TaskInstantiator(const std::string& planDir, bool simulation, Client& client) : planDir(planDir), simulation(simulation), condition(client), 
+                                         client(client), planLoader() {
 }
 
 PetriNetPlans::PnpExecutable* TaskInstantiator::createExecutable(const std::string& name) throw(std::runtime_error) {
@@ -102,39 +104,22 @@ PetriNetPlans::PnpExecutable* TaskInstantiator::createAction(const std::string& 
     bwi_kr_execution::ExecutePlanGoal goal;
 
     if (name.compare(0, 12, "ApproachDoor") == 0) {
-        bwi_kr_execution::AspRule rule;
-        bwi_kr_execution::AspFluent fluentMsg;
-        fluentMsg.name = "not facing";
-        fluentMsg.variables.push_back(name.substr(name.find_first_not_of("_ ", 12), name.length()));
-        fluentMsg.timeStep = 0;
-        rule.body.push_back(fluentMsg);
-        goal.aspGoal.push_back(rule);
-
-        return new Task(goal, client);
+        return new ApproachDoor(name.substr(name.find_first_not_of("_ ", 12), name.length()));
     }
 
     if (name.compare(0, 9, "GoThrough") == 0) {
-        bwi_kr_execution::AspRule rule;
-        bwi_kr_execution::AspFluent fluentMsg;
-        fluentMsg.name = "not gothrough";
-        fluentMsg.variables.push_back(name.substr(name.find_first_not_of("_ ", 9), name.length()));
-        fluentMsg.timeStep = 0;
-        rule.body.push_back(fluentMsg);
-        goal.aspGoal.push_back(rule);
-
-        return new Task(goal, client);
+        return new GoThrough(name.substr(name.find_first_not_of("_ ", 9), name.length()));
     }
 
     if (name.compare(0, 8, "OpenDoor") == 0) {
-        bwi_kr_execution::AspRule rule;
-        bwi_kr_execution::AspFluent fluentMsg;
-        fluentMsg.name = "not open";
-        fluentMsg.variables.push_back(name.substr(name.find_first_not_of("_ ", 8), name.length()));
-        fluentMsg.timeStep = 0;
-        rule.body.push_back(fluentMsg);
-        goal.aspGoal.push_back(rule);
-
-        return new Task(goal, client);
+        PetriNetPlans::PnpAction *open;
+        if (simulation) {
+            open = new OpenSimulatedDoor(name.substr(name.find_first_not_of("_ ", 8), name.length()));
+        }
+        else {
+            open = new OpenDoor(name.substr(name.find_first_not_of("_ ", 8), name.length()));
+        }
+        return open;
     }
 
     if (name.compare(0, 3, "Say") == 0) {
@@ -142,7 +127,7 @@ PetriNetPlans::PnpExecutable* TaskInstantiator::createAction(const std::string& 
     }
 
     if (name.compare(0, 5, "Print") == 0) {
-        return new Print(name.substr(name.find_first_not_of("_ ", 5), name.length()), printClient);
+        return new Print(name.substr(name.find_first_not_of("_ ", 5), name.length()));
     }
 
     stringstream goal_s;

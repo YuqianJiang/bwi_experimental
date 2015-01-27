@@ -1,10 +1,10 @@
-#include "OpenSimulatedDoor.h"
+#include "kractions/OpenSimulatedDoor.h"
 
 #include "segbot_simulation_apps/DoorHandlerInterface.h"
 #include "bwi_kr_execution/CurrentStateQuery.h"
 
-#include "ActionFactory.h"
-#include "LogicalNavigation.h"
+#include "kractions/ActionFactory.h"
+#include "kractions/LogicalNavigation.h"
 
 #include "actasp/AspFluent.h"
 
@@ -17,6 +17,8 @@ namespace bwi_krexec {
 
 
 OpenSimulatedDoor::OpenSimulatedDoor() : door(), done(false),requestSent(false) {}
+
+OpenSimulatedDoor::OpenSimulatedDoor(const std::string& doorName) : door(doorName), done(false),requestSent(false) {}
 
 void OpenSimulatedDoor::run() {
   NodeHandle n;

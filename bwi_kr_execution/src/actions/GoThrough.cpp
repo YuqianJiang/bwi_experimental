@@ -1,6 +1,6 @@
-#include "GoThrough.h"
+#include "kractions/GoThrough.h"
 
-#include "ActionFactory.h"
+#include "kractions/ActionFactory.h"
 
 #include "bwi_kr_execution/CurrentStateQuery.h"
 

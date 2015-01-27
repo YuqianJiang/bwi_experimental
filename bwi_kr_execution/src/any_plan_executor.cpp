@@ -12,8 +12,8 @@
 
 #include "bwi_kr_execution/ExecutePlanAction.h"
 
-#include "actions/ActionFactory.h"
-#include "actions/LogicalNavigation.h"
+#include "kractions/ActionFactory.h"
+#include "kractions/LogicalNavigation.h"
 
 #include <actionlib/server/simple_action_server.h>
 

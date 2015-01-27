@@ -1,5 +1,5 @@
 
-#include "actions/ActionFactory.h"
+#include "kractions/ActionFactory.h"
 
 #include "actasp/reasoners/Clingo.h"
 #include "actasp/action_utils.h"

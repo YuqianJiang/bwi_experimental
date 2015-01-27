@@ -1,8 +1,8 @@
-#include "AskPerson.h"
+#include "kractions/AskPerson.h"
 
-#include "ActionFactory.h"
+#include "kractions/ActionFactory.h"
 
-#include "CallGUI.h"
+#include "kractions/CallGUI.h"
 
 #include "bwi_kr_execution/AspFluent.h"
 

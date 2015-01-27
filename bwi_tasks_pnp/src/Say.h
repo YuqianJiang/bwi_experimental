@@ -16,7 +16,7 @@ private:
     string sentence;
     static ros::Publisher soundPublisher;
     bool sent;
-    bool pub_set;
+    static bool pub_set;
     double initial_time;
 };
 

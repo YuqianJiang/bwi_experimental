@@ -11,8 +11,8 @@
 #include "actasp/action_utils.h"
 #include "actasp/executors/MultiPolicyExecutor.h"
 
-#include "actions/ActionFactory.h"
-#include "actions/LogicalNavigation.h"
+#include "kractions/ActionFactory.h"
+#include "kractions/LogicalNavigation.h"
 
 
 #include <actionlib/server/simple_action_server.h>

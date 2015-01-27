@@ -2,9 +2,14 @@
 
 #include "TaskCondition.h"
 
-Print::Print(const string& sentence, ros::ServiceClient& printClient) : sentence(sentence), printClient(printClient), done(false) {}
+Print::Print(const string& sentence) : sentence(sentence), done(false) {}
 
 void Print::executeStep() {
+ 
+    ros::NodeHandle n;
+    ros::ServiceClient printClient = n.serviceClient<segbot_gui::QuestionDialog> ( "question_dialog" );
+    printClient.waitForExistence();
+
 	req.request.type = segbot_gui::QuestionDialogRequest::DISPLAY;
 	req.request.message = sentence;
 

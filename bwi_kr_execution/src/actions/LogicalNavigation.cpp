@@ -1,6 +1,6 @@
-#include "LogicalNavigation.h"
+#include "kractions/LogicalNavigation.h"
 
-#include "ActionFactory.h"
+#include "kractions/ActionFactory.h"
 
 #include "actasp/AspFluent.h"
 

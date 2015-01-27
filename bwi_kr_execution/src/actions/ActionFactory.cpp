@@ -1,4 +1,4 @@
-#include "ActionFactory.h"
+#include "kractions/ActionFactory.h"
 
 #include "actasp/Action.h"
 #include <boost/config/no_tr1/complex.hpp>
