@@ -6,8 +6,8 @@ ApproachDoor::ApproachDoor(const string& door) : door(door), sent(false) {}
 void ApproachDoor::executeStep() {
 
     if (!sent) {
-        approach = new bwi_krexec::ApproachDoor(door);
         initial_time = ros::Time::now().toSec();
+        approach = new bwi_krexec::ApproachDoor(door);
         sent = true;
     }
 

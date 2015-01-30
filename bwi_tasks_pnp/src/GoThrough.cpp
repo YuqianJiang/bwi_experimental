@@ -6,8 +6,8 @@ GoThrough::GoThrough(const string& door) : door(door), sent(false) {}
 void GoThrough::executeStep() {
 
     if (!sent) {
-        gothrough = new bwi_krexec::GoThrough(door);
         initial_time = ros::Time::now().toSec();
+        gothrough = new bwi_krexec::GoThrough(door);
         sent = true;
     }
 

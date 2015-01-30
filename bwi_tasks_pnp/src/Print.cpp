@@ -5,6 +5,8 @@
 Print::Print(const string& sentence) : sentence(sentence), done(false) {}
 
 void Print::executeStep() {
+
+    initial_time = ros::Time::now().toSec();
  
     ros::NodeHandle n;
     ros::ServiceClient printClient = n.serviceClient<segbot_gui::QuestionDialog> ( "question_dialog" );

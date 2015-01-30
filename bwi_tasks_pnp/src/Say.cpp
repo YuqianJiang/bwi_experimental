@@ -9,6 +9,8 @@ bool Say::pub_set(false);
 void Say::executeStep() {
     if (!sent) {
 
+        initial_time = ros::Time::now().toSec();
+
         ros::NodeHandle n;
         if (!pub_set) {
             soundPublisher = n.advertise<sound_play::SoundRequest>("robotsound", 1000);

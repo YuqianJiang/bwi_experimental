@@ -6,8 +6,8 @@ OpenSimulatedDoor::OpenSimulatedDoor(const string& door) : door(door), sent(fals
 void OpenSimulatedDoor::executeStep() {
 
     if (!sent) {
-        open = new bwi_krexec::OpenSimulatedDoor(door);
         initial_time = ros::Time::now().toSec();
+        open = new bwi_krexec::OpenSimulatedDoor(door);
         sent = true;
     }
 
